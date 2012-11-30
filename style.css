@@ -18,16 +18,32 @@
 }
 
 #flight {
+	display: block;
 	padding: 10px;
 	background-color: #eef;
-	font-weight: bold;
-	padding: 10px;
-	margin: 5px;
+	padding: 0px;
+	margin: 10px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
 
-h4 {
+#flight a {
+	text-decoration: none;
+	display: block;
 	margin: 0px;
+	padding: 10px;
+}
+
+#flight:hover {
+	background-color: #fee;
+}
+
+
+#flight h4 {
+	margin: 0px;
+	color: #00a;
+}
+
+#flight i {
 	color: #00a;
 }
