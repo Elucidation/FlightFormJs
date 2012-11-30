@@ -16,3 +16,18 @@
           0 6px 0 #fff,  
           0 7px 0 rgba(0, 0, 0, .2);
 }
+
+#flight {
+	padding: 10px;
+	background-color: #eef;
+	font-weight: bold;
+	padding: 10px;
+	margin: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+h4 {
+	margin: 0px;
+	color: #00a;
+}

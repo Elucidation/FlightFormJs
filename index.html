@@ -46,7 +46,8 @@
 	<input name="numPassengers" type="number" min="1" max="10" value="1" required>
 </fieldset>
 <fieldset id="actions">
-	<input type="submit" id="submit" value="Submit">
+	<!-- type="submit" in actual scenarios working with database, disabled here to avoid data loss in JS -->
+	<input type="button" id="submit" value="Submit" onclick ="exampleSubmit()">
 </fieldset>
 </form>
 
@@ -60,6 +61,7 @@
 // Model
 var FlightItem = Backbone.Model.extend({});
 function genFlight(form) {
+	// wrapper for dict input
 	return new FlightItem({
 		from: 			form["from"],
 		to: 			form["to"],
@@ -74,35 +76,89 @@ function genFlight(form) {
 
 // View
 var FlightView = Backbone.View.extend({
-	tagName: 'li',
+	tagName: 'div',
 	id: 'flight',
-	template: _.template('<h3>Generated Flight Information:</h3><br>' +
+	template: _.template('<h4>Generated Flight Information:</h4>' +
 		'<i>Number of passengers:</i> <%= numPassengers %><br>' +
 		'<i>From:</i> <%= from %><br>' +
 		'<i>To:</i> <%= to %><br>' +
 		'<i>Departing:</i> <%= depDate %> <%= depTime %><br>' +
 		'<i>Returning:</i> <%= retDate %> <%= retTime %>'),
+
+	initialize: function() {
+		this.model.on('change', this.render, this);
+		this.model.on('destroy', this.remove, this);
+	},
+
 	render: function() {
 		this.$el.html(  this.template( this.model.toJSON() )  );
+	},
+	
+	remove: function() {
+		this.$el.remove();
 	}
 });
 
-// Controller (nothing fancier since its a simple one page deal)
-var params = getUrlParameters(); // When a form is submitted, it goes back to this page, here it checks if params have been passed and if so does the model/view of it
-if (params["from"]) {
-	readForm(params);
+var FlightList = Backbone.Collection.extend({
+	model: FlightItem
+});
+var flightList = new FlightList();
+
+
+var FlightListView = Backbone.View.extend({
+	initialize: function() {
+		this.collection.on('add', this.addOne,this);
+		this.collection.on('reset', this.addAll, this);
+	},
+	addOne: function(flightItem) {
+		var flightView = new FlightView({model: flightItem});
+		flightView.render();
+		this.$el.append(flightView.el);
+	},
+	addAll: function() {
+		this.collection.forEach(this.addOne,this);;
+	},
+	render: function() {
+		this.reset();
+		this.addAll();
+	}
+});
+var flightListView = new FlightListView({collection: flightList});
+
+
+
+function exampleSubmit() {
+
+	var form = document.forms[0];
+
+	var flight = new FlightItem({
+		from: 			form["from"].value,
+		to: 			form["to"].value,
+		depDate: 		form["depDate"].value,
+		depTime: 		form["depTime"].value,
+		retDate: 		form["retDate"].value,
+		retTime: 		form["retTime"].value,
+		numPassengers: 	form["numPassengers"].value
+	});
+
+	flightList.add(flight);
+
+	document.getElementById('flights').innerHTML = flightListView.el.innerHTML;
 }
+
+// Controller (nothing fancier since its a one page deal)
 function readForm(form) {
 	// Generate instance of the model from form data
 	var flight = genFlight(form);
 
-	// Generate view of instance to html
-	var msg = new FlightView({model: flight});
-	msg.render();
+	flightList.add(flight);
 
-	console.log(msg.el);
-	// alert(msg.el.innerHTML);
-	document.getElementById('flights').innerHTML = msg.el.innerHTML;
+	// Generate view of instance to html
+	// var msg = new FlightView({model: flight});
+	// msg.render();
+
+	// document.getElementById('flights').innerHTML = msg.el.innerHTML;
+	document.getElementById('flights').innerHTML = flightListView.el.innerHTML;
 
 	// alert("Number of passengers: "+flight.get('numPassengers')+"\n"+
 	// 	"From: "+flight.get('from')+"\n"+
@@ -123,7 +179,46 @@ function getUrlParameters() {
 }
 
 
+var testFlightItem = new FlightItem({
+	from: "a",
+	to: "b",
+	depDate: "now",
+	depTime: "now!",
+	retDate: "then",
+	retTime: "sometime",
+	numPassengers: 9000
+});
 
+var testFlightItem2 = new FlightItem({
+	from: "c",
+	to: "d",
+	depDate: "ads",
+	depTime: "gds!",
+	retDate: "sdf",
+	retTime: "aahhh",
+	numPassengers: 39
+});
+var testFlightItem3 = new FlightItem({
+	from: "ada",
+	to: "hdag",
+	depDate: "342",
+	depTime: "643!",
+	retDate: "234234",
+	retTime: "6425",
+	numPassengers: 77
+});
+
+
+flightList.add(testFlightItem);
+flightList.add(testFlightItem2);
+flightList.add(testFlightItem3);
+console.log(flightListView.el.innerHTML);
+
+
+var params = getUrlParameters(); // When a form is submitted, it goes back to this page, here it checks if params have been passed and if so does the model/view of it
+if (params["from"]) {
+	readForm(params);
+}
 
 </script>
 
