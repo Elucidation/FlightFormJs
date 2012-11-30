@@ -2,6 +2,10 @@
 <html>
 <head>
 	<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+	<script src="libs/jquery-1.8.3.min.js"></script>
+	<script src="libs/json2.js"></script>
+	<script src="libs/underscore-min.js"></script>
+	<script src="libs/backbone-min.js"></script>
 	<title>Flight Form</title>
 	<style type="text/css">
 	#travelForm {
@@ -32,6 +36,10 @@ function readForm(form) {
 		"Departing: "+depDate+" "+depTime+"\n"+
 		"Returning: "+retDate+" "+retTime+"\n");
 }
+
+
+// View
+var FlightView = Backbone.View.extend({});
 
 
 </script>
