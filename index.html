@@ -120,8 +120,8 @@ var FlightListView = Backbone.View.extend({
 		_.bindAll(this, 'render'); // fixes loss of context for 'this' within methods
 		this.counter = 0;
 		this.collection.on('add', this.addOne,this);
-		this.collection.on('add', this.render);
 		this.collection.on('reset', this.addAll, this);
+		this.collection.on('add', this.render);
 		this.collection.on('remove', this.render);
 		this.documentBinding = document.getElementById('flights');
 	},
@@ -150,6 +150,7 @@ var flightListView = new FlightListView({collection: flightList});
 var FlightController = Backbone.Router.extend({
 	routes: {"": "index", "pop/:id": 'pop'},
 	index: function() {
+		console.log(this.flightList);
 	},
 	pop: function(id) {
 		if (this.flightList.length == 0) {
