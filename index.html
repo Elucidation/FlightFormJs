@@ -67,18 +67,6 @@
 /////////////////////////////////////////////////////////////////
 // Model
 var FlightItem = Backbone.Model.extend({});
-function genFlight(form) {
-	// wrapper for dict input
-	return new FlightItem({
-		from: 			form["from"],
-		to: 			form["to"],
-		depDate: 		form["depDate"],
-		depTime: 		form["depTime"],
-		retDate: 		form["retDate"],
-		retTime: 		form["retTime"],
-		numPassengers: 	form["numPassengers"]
-	});
-}
 
 var FlightList = Backbone.Collection.extend({
 	model: FlightItem,
