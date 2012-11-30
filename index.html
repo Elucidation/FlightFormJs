@@ -126,7 +126,12 @@ var FlightListView = Backbone.View.extend({
 var flightListView = new FlightListView({collection: flightList});
 
 
+// Controller (nothing fancier since its a one page deal)
 
+
+
+
+// Helpers
 function exampleSubmit() {
 
 	var form = document.forms[0];
@@ -145,32 +150,6 @@ function exampleSubmit() {
 
 	document.getElementById('flights').innerHTML = flightListView.el.innerHTML;
 }
-
-// Controller (nothing fancier since its a one page deal)
-function readForm(form) {
-	// Generate instance of the model from form data
-	var flight = genFlight(form);
-
-	flightList.add(flight);
-
-	// Generate view of instance to html
-	// var msg = new FlightView({model: flight});
-	// msg.render();
-
-	// document.getElementById('flights').innerHTML = msg.el.innerHTML;
-	document.getElementById('flights').innerHTML = flightListView.el.innerHTML;
-
-	// alert("Number of passengers: "+flight.get('numPassengers')+"\n"+
-	// 	"From: "+flight.get('from')+"\n"+
-	// 	"To: "+flight.get('to')+"\n"+
-	// 	"Departing: "+flight.get('depDate')+" "+flight.get('depTime')+"\n"+
-	// 	"Returning: "+flight.get('retDate')+" "+flight.get('retTime')+"\n");
-}
-
-
-
-// Helpers
-
 // Some regex kungfu off of StackOverflow to parse url params as dict
 function getUrlParameters() {
 	var map = {};
@@ -179,46 +158,16 @@ function getUrlParameters() {
 }
 
 
-var testFlightItem = new FlightItem({
-	from: "a",
-	to: "b",
-	depDate: "now",
-	depTime: "now!",
-	retDate: "then",
-	retTime: "sometime",
-	numPassengers: 9000
-});
-
-var testFlightItem2 = new FlightItem({
-	from: "c",
-	to: "d",
-	depDate: "ads",
-	depTime: "gds!",
-	retDate: "sdf",
-	retTime: "aahhh",
-	numPassengers: 39
-});
-var testFlightItem3 = new FlightItem({
-	from: "ada",
-	to: "hdag",
-	depDate: "342",
-	depTime: "643!",
-	retDate: "234234",
-	retTime: "6425",
-	numPassengers: 77
-});
-
-
-flightList.add(testFlightItem);
-flightList.add(testFlightItem2);
-flightList.add(testFlightItem3);
-console.log(flightListView.el.innerHTML);
-
-
-var params = getUrlParameters(); // When a form is submitted, it goes back to this page, here it checks if params have been passed and if so does the model/view of it
-if (params["from"]) {
-	readForm(params);
-}
+// var testFlightItem = new FlightItem({
+// 	from: "Atlanta",
+// 	to: "San Francisco",
+// 	depDate: "2011-11-10",
+// 	depTime: "noon",
+// 	retDate: "2012-12-31",
+// 	retTime: "late night",
+// 	numPassengers: 3
+// });
+// flightList.add(testFlightItem);
 
 </script>
 
