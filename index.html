@@ -13,6 +13,14 @@
 <body>
 
 <script type="text/javascript">
+
+// Some regex kungfu off of StackOverflow to parse url params as dict
+function getUrlParameters() {
+	var map = {};
+	window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) { map[key] = value; });
+	return map; 
+}
+
 function readForm(form) {
 	// Generate instance of the model from form data
 	var flight = genFlight(form);
@@ -37,13 +45,13 @@ var FlightItem = Backbone.Model.extend({});
 
 function genFlight(form) {
 	return new FlightItem({
-		from: 			form["from"].value,
-		to: 			form["to"].value,
-		depDate: 		form["depDate"].value,
-		depTime: 		form["depTime"].value,
-		retDate: 		form["retDate"].value,
-		retTime: 		form["retTime"].value,
-		numPassengers: 	form["numPassengers"].value
+		from: 			form["from"],
+		to: 			form["to"],
+		depDate: 		form["depDate"],
+		depTime: 		form["depTime"],
+		retDate: 		form["retDate"],
+		retTime: 		form["retTime"],
+		numPassengers: 	form["numPassengers"]
 	});
 }
 
@@ -66,7 +74,7 @@ var FlightView = Backbone.View.extend({
 
 </script>
 
-<form method="GET" name="travelForm" id="travelForm" onsubmit="readForm(this)" onclick="readForm(this)">
+<form method="GET" name="travelForm" id="travelForm" onsubmit="readForm(this)">
 <h1>Travel Form</h1>
 <fieldset id="inputs">
 	<label>From: </label>
@@ -105,6 +113,14 @@ var FlightView = Backbone.View.extend({
 </form>
 
 <div id="flights"></div>
+
+
+<script type="text/javascript">
+var params = getUrlParameters();
+if (params["from"]) {
+	readForm(params);
+}
+</script>
 
 </body>
 
