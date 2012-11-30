@@ -56,8 +56,15 @@
 
 <script type="text/javascript">
 
+// MVC built using Backbone.js framework
+
+// Model 		| FlightItem 	    FlightList  
+// View  		| FlightItemView    FlightListView
+// Controller 	| FlightController
 
 
+
+/////////////////////////////////////////////////////////////////
 // Model
 var FlightItem = Backbone.Model.extend({});
 function genFlight(form) {
@@ -87,7 +94,7 @@ var flightList = new FlightList();
 
 
 
-
+/////////////////////////////////////////////////////////////////
 // View
 var FlightView = Backbone.View.extend({
 	tagName: 'div',
@@ -145,7 +152,7 @@ var FlightListView = Backbone.View.extend({
 var flightListView = new FlightListView({collection: flightList});
 
 
-
+/////////////////////////////////////////////////////////////////
 // Controller (nothing fancier since its a one page deal)
 var FlightController = Backbone.Router.extend({
 	routes: {"": "index", "pop/:id": 'pop'},
@@ -153,6 +160,7 @@ var FlightController = Backbone.Router.extend({
 		console.log(this.flightList);
 	},
 	pop: function(id) {
+		// Only pop item from list if list is long enough (to avoid malformed query parameters being passed in)
 		if (this.flightList.length == 0) {
 			this.navigate("",{trigger:true});
 		} else {
@@ -168,7 +176,7 @@ var flightController = new FlightController({flightList: flightList});
 
 Backbone.history.start();
 
-
+/////////////////////////////////////////////////////////////////
 // Helpers
 function exampleSubmit() {
 
