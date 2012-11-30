@@ -16,10 +16,10 @@
 <h1>Travel Form</h1>
 <fieldset id="inputs">
 	<label>From: </label>
-	<input name="from" placeholder="From Airport" autofocus required value="ATL">   
+	<input name="from" placeholder="From Airport" autofocus required value="Atlanta">   
 	<br>
 	<label>To: </label>
-	<input name="to" placeholder="To Airport" required value="SFO">
+	<input name="to" placeholder="To Airport" required value="San Francisco">
 	<br>
 	<label>Departure Date: </label>
 	<input name="depDate" type="date" min="2011-01-01" max = "2012-12-31" required value="2012-11-29">
@@ -92,7 +92,7 @@ var flightList = new FlightList();
 var FlightView = Backbone.View.extend({
 	tagName: 'div',
 	id: 'flight',
-	template: _.template('<a href=#Read/<%=id%>><h4>Generated Flight Information:</h4>' +
+	template: _.template('<a href=#pop/<%=id%>><h4>Generated Flight Information:</h4>' +
 		'<i>Number of passengers:</i> <%= numPassengers %><br>' +
 		'<i>From:</i> <%= from %><br>' +
 		'<i>To:</i> <%= to %><br>' +
@@ -111,7 +111,6 @@ var FlightView = Backbone.View.extend({
 	
 	remove: function() {
 		this.$el.remove();
-		console.log("Remove FlightView");
 	}
 });
 
@@ -127,23 +126,19 @@ var FlightListView = Backbone.View.extend({
 		this.documentBinding = document.getElementById('flights');
 	},
 	addOne: function(flightItem) {
-		console.log("addOne FlightListView (LEN: "+this.collection.length+")");
 		flightItem.set({id: this.counter++});
 		var flightView = new FlightView({model: flightItem});
 		flightView.render();
 		this.$el.append(flightView.el);
-		console.log(this.el);
 		
 	},
 	addAll: function() {
-		console.log("addAll FlightListView");
 		this.counter = 0;
+		this.$el.append('<h4>test</h4>');
 		this.collection.forEach(this.addOne,this);;
 		
 	},
 	render: function() {
-		console.log("Render FlightListView");
-		console.log(this);
 		this.documentBinding.innerHTML = this.el.innerHTML;
 	}
 });
@@ -153,15 +148,14 @@ var flightListView = new FlightListView({collection: flightList});
 
 // Controller (nothing fancier since its a one page deal)
 var FlightController = Backbone.Router.extend({
-	routes: {"": "index", "Read/:id": 'read'},
+	routes: {"": "index", "pop/:id": 'pop'},
 	index: function() {
 	},
-	read: function(id) {
-		console.log("READ "+id+"!");
+	pop: function(id) {
 		if (this.flightList.length == 0) {
 			this.navigate("",{trigger:true});
 		} else {
-			console.log("Removing "+id+"!");
+			console.log("Popping "+id+"...");
 			this.flightList.remove(id);
 		}
 	},
@@ -191,7 +185,6 @@ function exampleSubmit() {
 
 	flightList.add(flight);
 
-	// document.getElementById('flights').innerHTML = flightListView.el.innerHTML;
 	
 }
 // Some regex kungfu off of StackOverflow to parse url params as dict
@@ -200,18 +193,6 @@ function getUrlParameters() {
 	window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) { map[key] = value; });
 	return map; 
 }
-
-
-// var testFlightItem = new FlightItem({
-// 	from: "Atlanta",
-// 	to: "San Francisco",
-// 	depDate: "2011-11-10",
-// 	depTime: "noon",
-// 	retDate: "2012-12-31",
-// 	retTime: "late night",
-// 	numPassengers: 3
-// });
-// flightList.add(testFlightItem);
 
 </script>
 
