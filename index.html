@@ -164,7 +164,8 @@ var FlightController = Backbone.Router.extend({
 		if (this.flightList.length == 0) {
 			this.navigate("",{trigger:true});
 		} else {
-			console.log("Popping "+id+"...");
+			// console.log("Popping "+id+"...");
+			prettyAlert(this.flightList.get(id));
 			this.flightList.remove(id);
 		}
 	},
@@ -196,7 +197,16 @@ function exampleSubmit() {
 
 	
 }
-// Some regex kungfu off of StackOverflow to parse url params as dict
+// Does a pretty alert showing info on a flight model instance
+function prettyAlert(flight) {
+	alert("Number of passengers: "+flight.attributes.numPassengers+"\n"+
+		"From: "+flight.attributes.from+"\n"+
+		"To: "+flight.attributes.to+"\n"+
+		"Departing: "+flight.attributes.depDate+" "+flight.attributes.depTime+"\n"+
+		"Returning: "+flight.attributes.retDate+" "+flight.attributes.retTime+"\n");
+}
+
+// Some regex-fu off of StackOverflow to parse url params as dict
 function getUrlParameters() {
 	var map = {};
 	window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) { map[key] = value; });
