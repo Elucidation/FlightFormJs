@@ -2,7 +2,6 @@
 <html>
 <head>
 	<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
-	<link rel="stylesheet" type="text/css" href="style.css" />
 	<title>Flight Form</title>
 	<style type="text/css">
 	#travelForm {
@@ -18,38 +17,57 @@
 
 <body>
 
-<form method="post" name="travelForm" id="travelForm">
+<script type="text/javascript">
+function readForm(form) {
+	var from = form["from"].value;
+	var to = form["to"].value;
+	var depDate = form["depDate"].value;
+	var depTime = form["depTime"].value;
+	var retDate = form["retDate"].value;
+	var retTime = form["retTime"].value;
+	var numPassengers = form["numPassengers"].value;
+	alert("Number of passengers: "+numPassengers+"\n"+
+		"From: "+from+"\n"+
+		"To: "+to+"\n"+
+		"Departing: "+depDate+" "+depTime+"\n"+
+		"Returning: "+retDate+" "+retTime+"\n");
+}
+
+
+</script>
+
+<form method="GET" name="travelForm" id="travelForm" onsubmit="readForm(this)">
 <h1>Travel Form</h1>
 <fieldset id="inputs">
 	<label>From: </label>
-	<input id="from" placeholder="From Airport" autofocus required value="ATL">   
+	<input name="from" placeholder="From Airport" autofocus required value="ATL">   
 	<br>
 	<label>To: </label>
-	<input id="to" placeholder="To Airport" required value="SFO">
+	<input name="to" placeholder="To Airport" required value="SFO">
 	<br>
 	<label>Departure Date: </label>
-	<input id="depDate" type="date" min="2011-01-01" max = "2012-12-31" required value="2012-11-29">
-	<select id="depTime">
-		<option value="1">anytime</option>
-		<option value="2">morning</option>
-		<option value="3">noon</option>
-		<option value="4">evening</option>
-		<option value="5">late night</option>
+	<input name="depDate" type="date" min="2011-01-01" max = "2012-12-31" required value="2012-11-29">
+	<select name="depTime">
+		<option value="anytime">anytime</option>
+		<option value="morning">morning</option>
+		<option value="noon">noon</option>
+		<option value="evening">evening</option>
+		<option value="late night">late night</option>
 	</select>
 	
 	<br>
 	<label>Return Date: </label>
-	<input id="retDate" type="date" min="2011-01-01" max = "2012-12-31" required value="2012-12-15">
-	<select id="retTime">
-		<option value="1">anytime</option>
-		<option value="2">morning</option>
-		<option value="3">noon</option>
-		<option value="4">evening</option>
-		<option value="5">late night</option>
+	<input name="retDate" type="date" min="2011-01-01" max = "2012-12-31" required value="2012-12-15">
+	<select name="retTime">
+		<option value="anytime">anytime</option>
+		<option value="morning">morning</option>
+		<option value="noon">noon</option>
+		<option value="evening">evening</option>
+		<option value="late night">late night</option>
 	</select>
 	<br>
 	<label>Number of Passengers: </label>
-	<input id="numPassengers" type="number" min="1" max="10" value="1" required>
+	<input name="numPassengers" type="number" min="1" max="10" value="1" required>
 </fieldset>
 <fieldset id="actions">
 	<input type="submit" id="submit" value="Submit">
