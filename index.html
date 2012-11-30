@@ -76,14 +76,14 @@ function genFlight(form) {
 var FlightView = Backbone.View.extend({
 	tagName: 'li',
 	id: 'flight',
+	template: _.template('<h3>Generated Flight Information:</h3><br>' +
+		'<i>Number of passengers:</i> <%= numPassengers %><br>' +
+		'<i>From:</i> <%= from %><br>' +
+		'<i>To:</i> <%= to %><br>' +
+		'<i>Departing:</i> <%= depDate %> <%= depTime %><br>' +
+		'<i>Returning:</i> <%= retDate %> <%= retTime %>'),
 	render: function() {
-		var html = "<h3>Generated Flight Information:</h3><br>"+
-		"<i>Number of passengers:</i> "+this.model.get('numPassengers')+"<br>"+
-		"<i>From:</i> "+this.model.get('from')+"<br>"+
-		"<i>To:</i> "+this.model.get('to')+"<br>"+
-		"<i>Departing:</i> "+this.model.get('depDate')+" "+this.model.get('depTime')+"<br>"+
-		"<i>Returning:</i> "+this.model.get('retDate')+" "+this.model.get('retTime');
-		this.$el.html(html);
+		this.$el.html(  this.template( this.model.toJSON() )  );
 	}
 });
 
