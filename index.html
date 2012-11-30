@@ -2,49 +2,71 @@
 <html>
 <head>
 	<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+	<link rel="stylesheet" type="text/css" href="style.css" />
 	<script src="libs/jquery-1.8.3.min.js"></script>
 	<script src="libs/json2.js"></script>
 	<script src="libs/underscore-min.js"></script>
 	<script src="libs/backbone-min.js"></script>
 	<title>Flight Form</title>
-	<style type="text/css">
-	#travelForm {
-		position: relative;
-		margin-left:auto;
-		margin-right:auto;
-		padding: 50px;
-		text-align: left;
-		width:400px;
-	}
-	</style>
 </head>
 
 <body>
 
 <script type="text/javascript">
 function readForm(form) {
-	var from = form["from"].value;
-	var to = form["to"].value;
-	var depDate = form["depDate"].value;
-	var depTime = form["depTime"].value;
-	var retDate = form["retDate"].value;
-	var retTime = form["retTime"].value;
-	var numPassengers = form["numPassengers"].value;
-	alert("Number of passengers: "+numPassengers+"\n"+
-		"From: "+from+"\n"+
-		"To: "+to+"\n"+
-		"Departing: "+depDate+" "+depTime+"\n"+
-		"Returning: "+retDate+" "+retTime+"\n");
+	// Generate instance of the model from form data
+	var flight = genFlight(form);
+
+	// Generate view of instance to html
+	var msg = new FlightView({model: flight});
+	msg.render();
+
+	console.log(msg.el);
+	// alert(msg.el.innerHTML);
+	document.getElementById('flights').innerHTML = msg.el.innerHTML;
+
+	// alert("Number of passengers: "+flight.get('numPassengers')+"\n"+
+	// 	"From: "+flight.get('from')+"\n"+
+	// 	"To: "+flight.get('to')+"\n"+
+	// 	"Departing: "+flight.get('depDate')+" "+flight.get('depTime')+"\n"+
+	// 	"Returning: "+flight.get('retDate')+" "+flight.get('retTime')+"\n");
+}
+
+// Model
+var FlightItem = Backbone.Model.extend({});
+
+function genFlight(form) {
+	return new FlightItem({
+		from: 			form["from"].value,
+		to: 			form["to"].value,
+		depDate: 		form["depDate"].value,
+		depTime: 		form["depTime"].value,
+		retDate: 		form["retDate"].value,
+		retTime: 		form["retTime"].value,
+		numPassengers: 	form["numPassengers"].value
+	});
 }
 
 
 // View
-var FlightView = Backbone.View.extend({});
+var FlightView = Backbone.View.extend({
+	tagName: 'li',
+	id: 'flight',
+	render: function() {
+		var html = "<h3>Generated Flight Information:</h3><br>"+
+		"<i>Number of passengers:</i> "+this.model.get('numPassengers')+"<br>"+
+		"<i>From:</i> "+this.model.get('from')+"<br>"+
+		"<i>To:</i> "+this.model.get('to')+"<br>"+
+		"<i>Departing:</i> "+this.model.get('depDate')+" "+this.model.get('depTime')+"<br>"+
+		"<i>Returning:</i> "+this.model.get('retDate')+" "+this.model.get('retTime');
+		this.$el.html(html);
+	}
+});
 
 
 </script>
 
-<form method="GET" name="travelForm" id="travelForm" onsubmit="readForm(this)">
+<form method="GET" name="travelForm" id="travelForm" onsubmit="readForm(this)" onclick="readForm(this)">
 <h1>Travel Form</h1>
 <fieldset id="inputs">
 	<label>From: </label>
@@ -81,6 +103,8 @@ var FlightView = Backbone.View.extend({});
 	<input type="submit" id="submit" value="Submit">
 </fieldset>
 </form>
+
+<div id="flights"></div>
 
 </body>
 
