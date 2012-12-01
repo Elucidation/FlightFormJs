@@ -12,8 +12,19 @@
 
 <body>
 
-<form method="GET" name="travelForm" id="travelForm">
 <h1>Travel Form</h1>
+
+<div id="info">
+	<p>A simple example of <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC architecture</a> using <a href="http://backbonejs.org/">backbone.js</a>.</p>
+	<p>Check out the code on <a href="https://github.com/Elucidation/FlightFormJs">Github</a>!</p>
+	<ul>
+		<li>Submit</li>
+		<li>Click to delete</li>
+		<li>That's it</li>
+	</ul>
+</div>
+
+<form method="GET" name="travelForm" id="travelForm">
 <fieldset id="inputs">
 	<label>From: </label>
 	<input name="from" placeholder="From Airport" autofocus required value="Atlanta">   
@@ -52,6 +63,8 @@
 </form>
 
 <div id="flights"></div>
+
+<br>
 
 
 <script type="text/javascript">
